@@ -1,0 +1,14 @@
+*.session
+*.cer
+*.csv
+to_be_processed
+to_be_processed2
+temp_to_be_processed2
+groups
+groups2
+edges
+edges2
+done
+done2
+processing
+processing2

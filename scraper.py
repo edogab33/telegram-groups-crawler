@@ -154,7 +154,6 @@ async def init(groups, edges: dict, to_be_processed, done):
 
 	async for dialog in client.iter_dialogs():
 		if type(dialog.entity) == telethon.tl.types.Channel:
-
 			temp_to_be_processed = await gather_links(dialog)
 			edges = update_edges(edges, temp_to_be_processed, dialog)
 			to_be_processed = to_be_processed.union(temp_to_be_processed)
@@ -253,22 +252,12 @@ async def collect_data(dialog: Dialog, link):
 			if group.username != None and group.broadcast != True:
 				async for m in client.iter_participants(dialog.id):
 					members.append(m.to_dict())
-
-
 			if group.username != None:
+				# change limit according to how many messages have to be saved
 				async for m in client.iter_messages(dialog.id, limit=3000):
 					messages.append(m.message)
 		except telethon.errors.rpcerrorlist.ChannelPrivateError as e:
 			print("	---[✘] Data collection failed: "+str(e)) 
-
-		if group.username != None and group.broadcast != True:
-			async for m in client.iter_participants(dialog.id):
-				members.append(m.to_dict())
-
-
-		if group.username != None:
-			async for m in client.iter_messages(dialog.id, limit=3000):
-				messages.append(m.message)
 
 		username = group.username
 		print(username)
