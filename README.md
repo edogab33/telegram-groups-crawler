@@ -14,7 +14,7 @@ Once done the ID and the HASH can be inserted into the code and the script can b
 
 # Usage
 
-In the code, there are two methods to initialize the crawler: `init_empty()` and `init()`. The former is used for the very first time that the script has been launched, while the latter is needed only in specific situations (read the code for details). Once the crawler has been launched with `init_empty()` and terminated it basically processed all the groups/channels where the account is already in, collecting all the links shared in the chats along with a number of other data such that:
+In the code, there are two methods to initialize the crawler: `init_empty()` and `init()`. The former is used for the very first time that the script has been launched, while the latter is needed only in specific situations (read the code for details). Once the crawler has been launched with `init_empty()` and terminated, it basically processed all the groups/channels where the account is already in, collecting all the links shared in the chats along with a number of other data such that:
 
 1. Name of the group/channel
 2. Username
