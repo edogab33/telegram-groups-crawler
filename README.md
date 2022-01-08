@@ -1,4 +1,7 @@
 # Introduction
+
+![start](https://user-images.githubusercontent.com/12884117/148644514-08e2f737-2d1b-42ce-801c-3f750893957c.gif)
+
 This is a crawler I wrote in Python using the APIs of Telethon months ago. This tool was not intended to be publicly available for a number of reasons, but eventually I decided to distribute it "as it is". Any contribution to the project is more than welcome :)
 
 # Installation
@@ -13,6 +16,8 @@ To use this tool you have to first obtain an API ID and an API HASH from Telegra
 Once done the ID and the HASH can be inserted into the code and the script can be launched. The first time it runs, it will ask to insert the telephone number.
 
 # Usage
+
+![init_empty](https://user-images.githubusercontent.com/12884117/148644423-5be39679-f1a5-4ec8-8597-95aa554cd6d9.gif)
 
 In the code, there are two methods to initialize the crawler: `init_empty()` and `init()`. The former is used for the very first time that the script has been launched, while the latter is needed only in specific situations (read the code for details). Once the crawler has been launched with `init_empty()` and terminated, it basically processed all the groups/channels where the account is already in, collecting all the links shared in the chats along with a number of other data such that:
 
