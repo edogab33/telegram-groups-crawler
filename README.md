@@ -1,6 +1,6 @@
 # Introduction
 
-![start](https://user-images.githubusercontent.com/12884117/148644514-08e2f737-2d1b-42ce-801c-3f750893957c.gif)
+![cropped](https://user-images.githubusercontent.com/12884117/148686503-d2862da6-d0c9-49c2-9ab4-01d021ac3717.gif)
 
 This is a crawler I wrote in Python using the APIs of Telethon months ago. This tool was not intended to be publicly available for a number of reasons, but eventually I decided to distribute it "as it is". Any contribution to the project is more than welcome :)
 
