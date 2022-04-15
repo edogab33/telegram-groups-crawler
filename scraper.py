@@ -14,9 +14,9 @@ import os
 from telethon.tl.types import Channel, Chat, Dialog
 
 # Use your own values from my.telegram.org
-api_id = 'INSERT YOUR API ID'
-api_hash = 'INSERT YOU API HASH'
-client = TelegramClient('INSERT THE FILE NAME', api_id, api_hash)
+api_id = '10754897'
+api_hash = 'e42a8b8fa4fc81078852b8ed3a14feb1'
+client = TelegramClient('tg', api_id, api_hash)
 groups = []
 # links pass the stages: to be processed -> done
 to_be_processed = set()
