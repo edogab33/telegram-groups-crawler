@@ -41,14 +41,14 @@ async def main():
 	await init_empty()
 	# ---!
 	
-	# !--- Uncomment for a fresh start with data
+	# !--- Uncomment for a fresh start with data! —取消注释，用已有数据重新开始
 	#df_groups = pd.read_pickle(os.path.join(package_dir,'groups'))
 	#df_edges = pd.read_pickle(os.path.join(package_dir,'edges'))
 	#df_tbp = pd.read_pickle(os.path.join(package_dir,'to_be_processed'))
 	#to_be_processed = df_to_set(df_tbp)
 	#edges = df_to_edgedict(df_edges)
 	#groups = df_to_grouplist(df_groups)
-	#await init(groups, edges, to_be_processed, done)
+	#await init(groups, edges, to_be_processed, done)#用转换后的数据进行初始化
 	# ---!
 
 	# Uncomment if you want to go over the to_be_processed file
@@ -56,7 +56,7 @@ async def main():
 
 def df_to_grouplist(df):
 	l = []
-	temp_l = df.values.tolist()
+	temp_l = df.values.tolist()#将存储的df转换为字典列表
 	for el in temp_l:
 		l.append({
 			"id": str(el[0]),		# id of the group
@@ -77,12 +77,12 @@ def df_to_set(df):
 		s.add(el[0])
 	return s
 
-def df_to_edgedict(df):
-	# "edges" is a set of tuples (v_1, v_2) where each vertex is a code pointing to the "groups" file.
+def df_to_edgedict(df):#将df转换为字典
+	# "edges" is a set of tuples (v_1, v_2) where each vertex is a code pointing to the "groups" file."edges"是一组元组(v_1, v_2)，其中每个顶点都是指向"groups"文件的代码。
 	return dict(zip(df['destination vertex'], df['origin vertices']))
 
 async def start():
-	# Go over the to_be_processed file to join in new groups, collect data and eventually quit them.
+	# Go over the to_be_processed file to join in new groups, collect data and eventually quit them.检查to_be_processed文件以加入新组，收集数据并最终退出。
 	counter = 1		# needed to count the progression
 
 	df_groups = pd.read_pickle(os.path.join(package_dir,'groups'))
@@ -147,11 +147,13 @@ async def init(groups, edges: dict, to_be_processed, done):
 	df_tbp.to_pickle(os.path.join(package_dir,'to_be_processed'))
 	df_groups = pd.DataFrame.from_dict(groups)
 	df_groups.to_pickle(os.path.join(package_dir,'groups'))
+	df_groups.to_csv(os.path.join(package_dir,'groups.csv'))
 	df_done = pd.DataFrame(list(done))
 	df_done.to_pickle(os.path.join(package_dir,'done'))
+	df_done.to_csv(os.path.join(package_dir,'done.csv'))
 	df_edges = pd.DataFrame(list(edges.items()), columns = ['destination vertex','origin vertices'])
 	df_edges.to_pickle(os.path.join(package_dir,'edges'))
-
+	df_edges.to_csv(os.path.join(package_dir,'edges.csv'))#save as csv file
 	async for dialog in client.iter_dialogs():
 		if type(dialog.entity) == telethon.tl.types.Channel:
 			temp_to_be_processed = await gather_links(dialog)
@@ -165,21 +167,25 @@ async def init(groups, edges: dict, to_be_processed, done):
 
 			df_groups = pd.DataFrame.from_dict(groups)
 			df_groups.to_pickle(os.path.join(package_dir,'groups'))
-
+			df_groups.to_csv(os.path.join(package_dir,'groups.csv'))
 			done.add(str(dialog.entity.id))
 
 			df_done = pd.DataFrame(list(done))
 			df_done.to_pickle(os.path.join(package_dir,'done'))
+			df_done.to_csv(os.path.join(package_dir,'done.csv'))
 
 			df_edges = pd.DataFrame(list(edges.items()), columns = ['destination vertex','origin vertices'])
 			df_edges.to_pickle(os.path.join(package_dir,'edges'))
+			df_edges.to_csv(os.path.join(package_dir,'edges.csv'))#save as csv file
+
 
 	print("	---[✓✓] Init completed!")
 
 async def init_empty():
 	# This method has to be used when no pickle file is available.
 	# It iters through the dialogs, collect links and general data from them 
-	# and it finally saves the pickle files on the host machine.
+	# and it finally saves the pickle files on the host machine.当没有pickle文件可用时，必须使用此方法。
+	# 它在dialog中运行，从dialog中收集链接和一般数据，最后将pickle文件保存在主机上。
 	to_be_processed = set()
 	edges = {}
 	done = set()
@@ -193,19 +199,23 @@ async def init_empty():
 
 			df_tbp = pd.DataFrame(list(to_be_processed))
 			df_tbp.to_pickle(os.path.join(package_dir,'to_be_processed'))
+			df_tbp.to_csv(os.path.join(package_dir,'to_be_processed.csv'))
 
 			groups.append(await collect_data(dialog, ""))
 
 			df_groups = pd.DataFrame.from_dict(groups)
 			df_groups.to_pickle(os.path.join(package_dir,'groups'))
+			df_groups.to_csv(os.path.join(package_dir,'groups.csv'))
 
 			done.add(str(dialog.entity.id))
 
 			df_done = pd.DataFrame(list(done))
 			df_done.to_pickle(os.path.join(package_dir,'done'))
+			df_done.to_csv(os.path.join(package_dir,'done.csv'))
 
 			df_edges = pd.DataFrame(list(edges.items()), columns = ['destination vertex','origin vertices'])
 			df_edges.to_pickle(os.path.join(package_dir,'edges'))
+			df_edges.to_csv(os.path.join(package_dir,'edges.csv'))#save as csv file
 
 	print("	---[✓✓] Init completed!")
 
@@ -213,6 +223,7 @@ def update_edges(edges: dict, tbp: list, dialog: Dialog):
 	# Input: edges, to_be_processed and a dialog object
 	# Output: the updated edges with a new entry if the destination group is new
 	# or an updated origin if the destination was already known before.
+	#输出:如果目标组是新的，则更新了带有新条目的边;如果目标之前已经知道，则更新了起点。
 	for l in tbp:
 				if l in edges:
 					edges.get(l).append(dialog.entity.id)
@@ -241,7 +252,7 @@ async def gather_links(dialog: Dialog):
 	return l
 
 async def collect_data(dialog: Dialog, link):
-	# Collect data of the group: name, messages, list of members
+	# Collect data of the group: name, messages, list of members收集群组数据:群组名称、群组消息、群组成员列表
 	group = dialog.entity
 	messages = []
 	d = {}
