@@ -37,7 +37,7 @@ async def main():
 	print(username)
 	print(me.phone)
 
-	# !--- Uncomment for a fresh initialization without any data
+	# !--- Uncomment for a fresh initialization without any data!
 	await init_empty()
 	# ---!
 	
