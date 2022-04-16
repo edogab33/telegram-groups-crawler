@@ -14,9 +14,9 @@ import os
 from telethon.tl.types import Channel, Chat, Dialog
 
 # Use your own values from my.telegram.org
-api_id = '10754897'
-api_hash = 'e42a8b8fa4fc81078852b8ed3a14feb1'
-client = TelegramClient('tg', api_id, api_hash)
+api_id = 'INSERT YOUR API ID'
+api_hash = 'INSERT YOU API HASH'
+client = TelegramClient('INSERT THE FILE NAME', api_id, api_hash)
 groups = []
 # links pass the stages: to be processed -> done
 to_be_processed = set()
@@ -56,7 +56,7 @@ async def main():
 
 def df_to_grouplist(df):
 	l = []
-	temp_l = df.values.tolist()#将存储的df转换为字典列表
+	temp_l = df.values.tolist()
 	for el in temp_l:
 		l.append({
 			"id": str(el[0]),		# id of the group
@@ -265,7 +265,7 @@ async def collect_data(dialog: Dialog, link):
 					members.append(m.to_dict())
 			if group.username != None:
 				# change limit according to how many messages have to be saved
-				async for m in client.iter_messages(dialog.id, limit=100000):
+				async for m in client.iter_messages(dialog.id, limit=3000):
 					messages.append(m.message)
 		except telethon.errors.rpcerrorlist.ChannelPrivateError as e:
 			print("	---[✘] Data collection failed: "+str(e)) 
