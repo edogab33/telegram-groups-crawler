@@ -36,3 +36,7 @@ Once the initialization is complete, you can comment `init_empty()` and uncommen
 # Limitations
 
 Telegram doesn't want that you play with users' data therefore for each account, if I recall correctly, you can join 25 groups per hour, then Telegram will stop you. The script handles this, so if your usage is not so intensive it will not make your task unfeasible. But if you need hundreds or thousands of groups, well, you have to parallelize the script. I won't publish the code for doing this, but it is not so difficult to make this idea practical.
+
+# Citation
+
+This repository is released under the MIT license. If this work helped you somehow and you are going to use my code, my dataset, or derivations of them I would be glad to be cited in you project/research ("Edoardo Gabrielli" + link of the repo). Thank you!
